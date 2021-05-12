@@ -1,0 +1,30 @@
+<launch>
+    <include file="$(find office_test_environment)/launch/office.launch"/>
+    <param name="robot_description" command="$(find xacro)/xacro '$(find robot_assisted_cleaning_solution)/urdf/robot_assisted_cleaning_solution.urdf.xacro'"/>
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <param name="use_gui" value="false" />
+    </node>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -x 0 -y 0 -z 0 -Y 0 -model example_urdf -param robot_description" />
+
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
+
+    <include file="$(find ira_laser_tools)/launch/laserscan_multi_merger.launch"/>
+
+    <include file="$(find robot_assisted_cleaning_solution)/launch/teb.launch"/> 
+
+    <!-- <node pkg="assisted_cleaning_solution" name="smach_assisted_cleaning_solution" type="smach_assisted_cleaning_solution.py"/> -->
+    <node pkg="assisted_cleaning_solution" name="select_coords" type="select_coords.py"/>
+    <node pkg="assisted_cleaning_solution" name="find_chairs" type="find_chairs.py"/>
+    <node pkg="assisted_cleaning_solution" name="group_chairs" type="group_chairs.py"/>
+    <node pkg="assisted_cleaning_solution" name="check_chairs_nearby" type="check_chairs_nearby.py"/>
+    <node pkg="assisted_cleaning_solution" name="go_to_chair" type="go_to_chair.py"/>
+    <node pkg="assisted_cleaning_solution" name="move_around_chair" type="move_around_chair.py"/>
+    <node pkg="assisted_cleaning_solution" name="go_to_path" type="go_to_path.py"/>
+    <node pkg="assisted_cleaning_solution" name="positioning_for_plinths" type="positioning_for_plinths.py"/>
+    <node pkg="assisted_cleaning_solution" name="follow_plinths" type="follow_plinths.py"/>
+    <node pkg="assisted_cleaning_solution" name="make_turn" type="make_turn.py"/>
+
+</launch>

@@ -1,0 +1,5 @@
+float32[] x_coords_chair
+float32[] y_coords_chair
+---
+float32[] x_coords_chair_group
+float32[] y_coords_chair_group
