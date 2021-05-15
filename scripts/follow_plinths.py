@@ -27,11 +27,10 @@ class followPlinths():
         self.odom_x = None
         self.odom_y = None
 
-        self.position = 2
+        self.position = 1
 
         self.close_to_wall = 0.10
         self.far_to_wall = 0.13
-        print(0)
 
     def subs_plinths(self):
         self.server_plinths = actionlib.SimpleActionServer('follow_plinths_action', 
@@ -55,13 +54,11 @@ class followPlinths():
     def goalCB(self):
         self.coords_room = self.server_plinths.accept_new_goal()
         self.coords_room = self.coords_room.coords
-        print(1)
         self.position = 0
 
     def preemptCB(self):
         move(0,0)
-        self.position = 2
-        print(2)
+        self.position = 1
         self.server_plinths.set_preempted()
         
     def sensorsCB(self, sonar1, sonar2, ir_front, ir_back, odom):
@@ -77,67 +74,58 @@ class followPlinths():
 
     def situation(self):
         # Only work when goal is received
-        if (self.position != 2):
+        if (self.position == 0):
 
             # Drive forward when nothing at robot side, This is for the robot reaching door
-            if (self.sonar_front > 1.5 and self.position == 0):
+            if (self.sonar_front > 1.5):
                 move(0.4, 0)
-                self.position = 1
-                print(3)
-
-            # Let the robot do the below actions, This is for the robot reaching door
-            if (self.sonar_front < 1.5 and self.position == 1):
-                self.position = 0
-                print(4)
-
-            # Only do this when there is no open space 
-            if (self.position == 0):
-                
+            
+            # Only do this when there is no open space on right side of robot
+            else:
                 # Calculate if robot is close to end of room
                 self.dis_to_start = math.hypot(self.coords_room[0] - self.odom_x, self.coords_room[1] - self.odom_y)
 
                 # stop the robot when the robot is back to begin position
                 if (self.dis_to_start < 0.3):    
                     move(0,0)
-                    self.position = 2
-                    print(5)
+                    self.position = 1
+
                     self._result.done = False
                     self.server_plinths.set_succeeded(self._result)  
 
                 # When the robot detects something in front
-                if (self.ir_front < 0.13):
+                elif (self.ir_front < 0.13):
                     move(0,0)
-                    self.position = 2
-                    print(6)
+                    self.position = 1
+
                     self._result.done = True
                     self.server_plinths.set_succeeded(self._result)
 
                 # Follow the wall
-                if (self.position == 0):
+                else:
                     if (self.sonar_front > 0.20):
                         move(0.02, -1.2)
-                        print(7)
 
                     else:
                         self.follow_side()
-                        print(8)
 
     def follow_side(self):
         # The function for following the wall and correcting robot orientation
-        if (self.sonar_front < self.far_to_wall and self.sonar_front > self.close_to_wall and self.sonar_back < self.far_to_wall and self.sonar_back > self.close_to_wall):
-            move(0.5, 0)
-        
         if (self.sonar_front > self.far_to_wall):
             move(0.1, -0.2)
         
-        if (self.sonar_front < self.close_to_wall):
+        elif (self.sonar_front < self.close_to_wall):
             move(0.1, 0.2)
         
-        if (self.sonar_back > self.far_to_wall and self.sonar_front < self.far_to_wall and self.sonar_front > self.close_to_wall):
-            move(0.1, 0.2)
+        else:
+            if (self.sonar_back > self.far_to_wall):
+                move(0.1, 0.2)
 
-        if (self.sonar_back < self.close_to_wall and self.sonar_front < self.far_to_wall and self.sonar_front > self.close_to_wall):
-            move(0.1, -0.2)  
+            elif (self.sonar_back < self.close_to_wall):
+                move(0.1, -0.2)
+
+            else:
+                move(0.5, 0)
 
 if __name__ == "__main__":
     rospy.init_node('follow_plinths')

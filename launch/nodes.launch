@@ -24,7 +24,7 @@
     <node pkg="assisted_cleaning_solution" name="move_around_chair" type="move_around_chair.py"/>
     <node pkg="assisted_cleaning_solution" name="go_to_path" type="go_to_path.py"/>
     <node pkg="assisted_cleaning_solution" name="positioning_for_plinths" type="positioning_for_plinths.py"/>
-    <!-- <node pkg="assisted_cleaning_solution" name="follow_plinths" type="follow_plinths.py"/> -->
+    <node pkg="assisted_cleaning_solution" name="follow_plinths" type="follow_plinths.py"/>
     <node pkg="assisted_cleaning_solution" name="make_turn" type="make_turn.py"/>
 
 </launch>
