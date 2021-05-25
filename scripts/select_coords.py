@@ -15,7 +15,7 @@ def select_coords(file_name, row, column):
     with open('%s/%s.csv' % (package_path, file_name), 'r') as file:
         reader = csv.reader(file, delimiter = ';')
 
-        coords = next(islice(reader, row + 1, None))[column]
+        coords = next(islice(reader, int(row) + 1, None))[int(column)]
         coords = coords.split(',')
         coords = [float(item) for item in coords]
 
@@ -31,7 +31,7 @@ def handle_select_coords(req):
     elif (req.file == 'RoomCoords'): # The number of the room so the chairs has the correct column
         _response.count = req.row - 1
 
-    else: # For the next time the next row will be chosen
+    else: # For the next time the next row will be chosen during cleaning chair
         _response.count = req.row + 1
 
     _response.coords = coords

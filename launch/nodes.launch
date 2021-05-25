@@ -27,4 +27,7 @@
     <node pkg="assisted_cleaning_solution" name="follow_plinths" type="follow_plinths.py"/>
     <node pkg="assisted_cleaning_solution" name="make_turn" type="make_turn.py"/>
 
+    <!-- independent node -->
+    <node pkg="assisted_cleaning_solution" name="lights" type="lights.py"/>
+
 </launch>

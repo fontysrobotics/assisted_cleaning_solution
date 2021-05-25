@@ -1,1 +1,1 @@
-int8 task
+float64 task

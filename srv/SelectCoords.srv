@@ -1,7 +1,7 @@
 string file
-int8 row
-int8 column
+float64 row
+float64 column
 float32[] coords
 ---
-int8 count
+float64 count
 float32[] coords
