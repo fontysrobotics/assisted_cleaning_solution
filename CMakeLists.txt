@@ -186,6 +186,7 @@ include_directories(
    scripts/make_turn.py
    scripts/util.py
    scripts/callback.py
+   scripts/lights.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
