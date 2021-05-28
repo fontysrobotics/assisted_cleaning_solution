@@ -187,6 +187,7 @@ include_directories(
    scripts/util.py
    scripts/callback.py
    scripts/lights.py
+   scripts/microcontroller_communication.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
