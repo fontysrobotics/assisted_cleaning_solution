@@ -93,8 +93,9 @@ This package contains:
 ### task message layout
 
     0 = Stop and Receive Task
-    1 = Plinths
-    2 = Chairs
+	-1 = Error (does nothing yet)
+    -2 = Plinths
+    -3 = Chairs
     3 = Charging Station
     4 = Default Position in Room
     5 = Room 1

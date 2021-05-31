@@ -33,10 +33,10 @@ class receive_task(State):
             userdata.new_task = self.task_num
             userdata.previous_task = self.task_num
 
-            if (self.task_num == 1):
+            if (self.task_num == -2):
                 return 'plinths'
 
-            if (self.task_num == 2):
+            if (self.task_num == -3):
                 return 'chairs'
 
             if (self.task_num > 2):

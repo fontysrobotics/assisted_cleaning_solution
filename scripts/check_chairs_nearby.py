@@ -25,17 +25,14 @@ class checkChairs:
 
         # Else there will be decide if there are chairs nearby to go to
         else:
-            print(1)
             for index in range(len(x_coords_chairs)):
                 distance_to_chair = math.hypot(x_coords_chairs[index]-self.x_odom, y_coords_chairs[index]-self.y_odom)
-                print(distance_to_chair)
 
                 # When chairs are nearby
                 if (distance_to_chair < 1.5):
                     return 2, x_coords_chairs[index], y_coords_chairs[index]
 
             # When no chairs are nearby
-            print(3)
             return 1, 0, 0
 
     def handle_check_chairs(self, req):
