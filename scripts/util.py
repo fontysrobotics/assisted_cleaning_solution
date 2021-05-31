@@ -39,7 +39,7 @@ class receive_task(State):
             if (self.task_num == -3):
                 return 'chairs'
 
-            if (self.task_num > 2):
+            if (self.task_num > 0):
                 return 'nextRoom'
 
         return 'not_received'

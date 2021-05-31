@@ -42,7 +42,7 @@ def select_room(userdata, request):
     select_room_request = SelectCoordsRequest()
 
     select_room_request.file = 'RoomCoords'
-    select_room_request.row = userdata.room - 3
+    select_room_request.row = userdata.room - 1
     select_room_request.column = 1
     select_room_request.coords = userdata.coords
 

@@ -92,16 +92,26 @@ This package contains:
 
 ### task message layout
 
-    0 = Stop and Receive Task
+	-3 = Chairs
+	-2 = Plinths
 	-1 = Error (does nothing yet)
-    -2 = Plinths
-    -3 = Chairs
-    3 = Charging Station
-    4 = Default Position in Room
-    5 = Room 1
-    6 = Room 2
-    7 = Room 3
-    8 = Room 4
+    0 = Stop and Receive Task
+    1 = Charging Station
+    2 = Default Position in Room
+    3 = Room 1
+    4 = Room 2
+    5 = Room 3
+    6 = Room 4
+
+The rooms can be extended with adding the coordinates in the CSV file RoomCoords so the robot can drive to the rooms. In the package gui_assisted_cleaning_solution extra room numbers should be added to the set room menu. More information about adding room numbers can be found in de readme of https://github.com/fontysrobotics/gui_assisted_cleaning_solution.git
+
+### CSV
+
+The CSV files are for the coordinates of the rooms and the path around the chairs. The delimiter is ';'. 
+    
+The RoomCoords.csv contains the coordinates of the rooms where the first column is the number the service receives. The second column is the coordinates of the rooms. The coordinate of 1000,1000,1000,1000 is to make clear that the previous coordinates should be selected.
+    
+The PathCoords.csv contains the coordinates of the path. In the first column the number of the steps the robot takes for the path. The second till end column contain the coordinates. The first row shows the room numbers for the coordinates below.
 
 ### SMACH
 
@@ -114,11 +124,3 @@ SMACH is used for the State Machine of the robot software. In the SMACH_Images i
 The rosnode graphs can be found in the graphs/Node_Graph folder in this package.
 
 ![Rosnode Graph](./graphs/Node_Graph/nodegraph_v5.png)
-
-### CSV
-
-The CSV files are for the coordinates of the rooms and the path around the chairs. The delimiter is ';'. 
-    
-The RoomCoords.csv contains the coordinates of the rooms where the first column is the number the service receives. The second column is the coordinates of the rooms. The coordinate of 1000,1000,1000,1000 is to make clear that the previous coordinates should be selected.
-    
-The PathCoords.csv contains the coordinates of the path. In the first column the number of the steps the robot takes for the path. The second till end column contain the coordinates. The first row shows the room numbers for the coordinates below.
