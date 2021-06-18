@@ -22,7 +22,7 @@ pip3:
 	numpy
 	pandas
 
-## Other needed packages
+## Needed packages
 
 ### ira_laser_tools-master
 
@@ -90,12 +90,15 @@ This package contains:
 
 ## Package information
 
-### task message layout
+### Task message
+The task message is used for giving the robot a task to perform. The user interface publishes the message by pressing the buttons for the tasks. The navigation tasks are the numbers from one to higher. The rooms can easily be extended in the positive range of the numbers. The tasks go from -2 to lower. These can also be easily extended.
+
+#### Task message layout
 
 	-3 = Chairs
 	-2 = Plinths
 	-1 = Error (does nothing yet)
-    0 = Stop and Receive Task
+    0 = Stop and Waiting for Task
     1 = Charging Station
     2 = Default Position in Room
     3 = Room 1
@@ -103,24 +106,44 @@ This package contains:
     5 = Room 3
     6 = Room 4
 
-The rooms can be extended with adding the coordinates in the CSV file RoomCoords so the robot can drive to the rooms. In the package gui_assisted_cleaning_solution extra room numbers should be added to the set room menu. More information about adding room numbers can be found in de readme of https://github.com/fontysrobotics/gui_assisted_cleaning_solution.git
+#### Expand rooms.
 
-### CSV
+1. Go to https://github.com/fontysrobotics/gui_assisted_cleaning_solution.git
+2. Follow the steps under change or add number of rooms
+3. Follow the steps under change floorplan
+4. Go to the assisted_cleaning_solution package
+5. Go to the csv folder and open RoomCoords
+6. Add the new row with the next row number
+7. In the same row add ;
+8. In the same row add the coordinates of the new room with layout: 
+	position x, position y, quaternion z, quaternion w
+(These coordinates should be next to a wall with the right side of the AGV for starting with cleaning the plinths)
+9. Repeat step 6 to 8 for all the rooms that needed to be added
 
-The CSV files are for the coordinates of the rooms and the path around the chairs. The delimiter is ';'. 
-    
-The RoomCoords.csv contains the coordinates of the rooms where the first column is the number the service receives. The second column is the coordinates of the rooms. The coordinate of 1000,1000,1000,1000 is to make clear that the previous coordinates should be selected.
-    
-The PathCoords.csv contains the coordinates of the path. In the first column the number of the steps the robot takes for the path. The second till end column contain the coordinates. The first row shows the room numbers for the coordinates below.
+#### Expand Tasks.
 
-### SMACH
+1. Go to https://github.com/fontysrobotics/gui_assisted_cleaning_solution.git
+2. Follow the steps under add new task
+3. Go to the assisted_cleaning_solution package
+4. Go to the folder scripts the file util.py class receive_task
+5. Add in the init a outcome of the new task.
+6. Add in the execute a new statement with the new task. The statement should correspond with the value of the task message and the return value should be the outcome that was added in the init.
+7. Go to the folder scripts the file smach_assisted_cleaning_solutions.py state Recieve_task add an additional transition for the new task.
+8. Make a new state machine for the new task.
 
-SMACH is used for the State Machine of the robot software. In the SMACH_Images in the graph folder of this package is the evolution of the State Machine visible.
+### Change simulation
 
-![Smach Image](./graphs/SMACH_Images/smach_v24.png)
+#### Change environment
 
-### Ros node graph
+1. Go to the launch folder file nodes.launch
+2. Change the first include to the new environment. 
 
-The rosnode graphs can be found in the graphs/Node_Graph folder in this package.
+For less chance of issues the new environment should have the same package layout as https://github.com/fontysrobotics/office_test_environment.git
 
-![Rosnode Graph](./graphs/Node_Graph/nodegraph_v5.png)
+#### Change robot
+
+1. Go to the launch folder file nodes.launch
+2. Change the second and third include to the new robot package
+
+For less chance of issues with the new robot the package should have the same package layout as https://github.com/fontysrobotics/robot_assisted_cleaning_solution.git
+With the same navigation package used.

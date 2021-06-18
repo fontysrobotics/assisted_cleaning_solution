@@ -29,21 +29,20 @@ class receive_task(State):
             self.service_preempt()
             return 'preempted'
 
-        if (self.task_num != userdata.previous_task):
+        elif (self.task_num != userdata.previous_task):
             userdata.new_task = self.task_num
             userdata.previous_task = self.task_num
-
-            if (self.task_num == -2):
-                return 'plinths'
-
-            if (self.task_num == -3):
-                return 'chairs'
 
             if (self.task_num > 0):
                 return 'nextRoom'
 
-        return 'not_received'
+            elif (self.task_num == -2):
+                return 'plinths'
 
+            elif (self.task_num == -3):
+                return 'chairs'
+
+        return 'not_received'
 
 # ---------------------------------------------------------------------
 # Cancel the move base goal. 
