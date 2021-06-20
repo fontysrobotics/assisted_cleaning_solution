@@ -143,7 +143,7 @@ For less chance of issues the new environment should have the same package layou
 #### Change robot
 
 1. Go to the launch folder file nodes.launch
-2. Change the second and third include to the new robot package
+2. Change the node and the second to fourth include to the new robot package
 
-For less chance of issues with the new robot the package should have the same package layout as https://github.com/fontysrobotics/robot_assisted_cleaning_solution.git
-With the same navigation package used.
+For less chance of issues with the new robot the package should have the same package content as https://github.com/fontysrobotics/robot_assisted_cleaning_solution.git
+and with the same navigation package used.

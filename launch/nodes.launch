@@ -1,12 +1,15 @@
 <launch>
     <include file="$(find office_test_environment)/launch/office.launch"/>
+
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find robot_assisted_cleaning_solution)/office_map.yaml" output="screen">
+		<param name="frame_id" value="map" />
+	</node>
     
     <include file="$(find robot_assisted_cleaning_solution)/launch/robot.launch"/>
     <include file="$(find robot_assisted_cleaning_solution)/launch/teb.launch"/> 
+    <include file="$(find ira_laser_tools)/launch/laserscan_multi_merger.launch" />
 
     <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
-
-    <include file="$(find robot_assisted_cleaning_solution)/launch/teb.launch"/> 
 
     <!-- <node pkg="assisted_cleaning_solution" name="smach_assisted_cleaning_solution" type="smach_assisted_cleaning_solution.py"/> -->
     <node pkg="assisted_cleaning_solution" name="select_coords" type="select_coords.py"/>
@@ -22,6 +25,6 @@
 
     <!-- independent nodes -->
     <node pkg="assisted_cleaning_solution" name="lights" type="lights.py"/>
-    <node pkg="assisted_cleaning_solution" name="microcontroller_communication" type="microcontroller_communication.py"/>
+    <!-- <node pkg="assisted_cleaning_solution" name="microcontroller_communication" type="microcontroller_communication.py"/> -->
 
 </launch>
