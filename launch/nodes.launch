@@ -25,6 +25,6 @@
 
     <!-- independent nodes -->
     <node pkg="assisted_cleaning_solution" name="lights" type="lights.py"/>
-    <!-- <node pkg="assisted_cleaning_solution" name="microcontroller_communication" type="microcontroller_communication.py"/> -->
+    <node pkg="assisted_cleaning_solution" name="microcontroller_communication" type="microcontroller_communication.py"/>
 
 </launch>
