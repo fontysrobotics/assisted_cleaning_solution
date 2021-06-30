@@ -10,19 +10,19 @@ class task_subscriber:
 
     def __init__(self):
         self.microcontroller = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.01)
-        self.sensor_publisher = rospy.Publisher('sensor', Sensor, queue_size=10)
+        self.sensor_publisher = rospy.Publisher('sensor', Sensor, queue_size=1)
 
         self.task_subsriber = rospy.Subscriber('task', Task, self.lights_callback, queue_size=1)
         self.twist_subscriber = rospy.Subscriber('cmd_vel', Twist, self.twist_callback, queue_size=1)
         self.timer = rospy.Timer(rospy.Duration(0.01), self.timer_callback)
 
-    def publish_sensor(self, ir_back, ir_front, sonar1, sonar2):
+    def publish_sensor(self, data):
         sensor = Sensor()
-
-        sensor.ir_back = ir_back
-        sensor.ir_front = ir_front
-        sensor.sonar1 = sonar1
-        sensor.sonar2 = sonar2
+       
+        sensor.ir_back = data[0]
+        sensor.ir_front = data[1]
+        sensor.sonar1 = data[2]
+        sensor.sonar2 = data[3]
 
         self.sensor_publisher.publish(sensor)
 
@@ -44,10 +44,15 @@ class task_subscriber:
     def timer_callback(self, timer):
         try:
             data = self.microcontroller.readline()
-            print(data.decode())
+            data = (data.decode()).split()
+            data = [float(i) for i in data]
+
+            print(data, type(data), len(data))
             self.microcontroller.flushInput()
 
-            self.publish_sensor(1,2,3,4)
+            if len(data) == 4:
+                self.publish_sensor(data)
+            
 
         except KeyboardInterrupt:
             self.microcontroller.close()
