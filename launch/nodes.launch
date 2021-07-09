@@ -1,16 +1,23 @@
 <launch>
+    <include file="$(find robot_assisted_cleaning_solution)/launch/robot.launch"/>
+	<!-- Change robot to real_robot when using the real robot. Then also comment out the office.launch-->
+	
     <include file="$(find office_test_environment)/launch/office.launch"/>
 
     <node name="map_server" pkg="map_server" type="map_server" args="$(find robot_assisted_cleaning_solution)/office_map.yaml" output="screen">
 		<param name="frame_id" value="map" />
 	</node>
     
-    <include file="$(find robot_assisted_cleaning_solution)/launch/robot.launch"/>
     <include file="$(find robot_assisted_cleaning_solution)/launch/teb.launch"/> 
     <include file="$(find ira_laser_tools)/launch/laserscan_multi_merger.launch" />
 
-    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
-
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+	    <arg name="port" value="9090"/>
+	    <arg name="address" value="127.0.0.1"/>
+	</include>
+	<!-- This address and port should be the same as the address and port used for the ros communication in the javascript files. 
+	The adress is the ip address of the computer on the network -->
+	
     <!-- <node pkg="assisted_cleaning_solution" name="smach_assisted_cleaning_solution" type="smach_assisted_cleaning_solution.py"/> -->
     <node pkg="assisted_cleaning_solution" name="select_coords" type="select_coords.py"/>
     <node pkg="assisted_cleaning_solution" name="find_chairs" type="find_chairs.py"/>
@@ -24,7 +31,6 @@
     <node pkg="assisted_cleaning_solution" name="make_turn" type="make_turn.py"/>
 
     <!-- independent nodes -->
-    <node pkg="assisted_cleaning_solution" name="lights" type="lights.py"/>
     <node pkg="assisted_cleaning_solution" name="microcontroller_communication" type="microcontroller_communication.py"/>
 
 </launch>
