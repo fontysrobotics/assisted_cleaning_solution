@@ -45,8 +45,11 @@ class task_subscriber:
         else:
             right_dir = 0
 
-        left_dutycycle = 65535 * abs(left_vel)
-        right_dutycycle = 65535 * abs(right_vel)
+        left_dutycycle = 65535 * abs(left_vel)/0.3
+        right_dutycycle = 65535 * abs(right_vel)/0.3
+
+        left_dutycycle = int(left_dutycycle)
+        right_dutycycle = int(right_dutycycle)
 
         if left_dutycycle > 65535:
             left_dutycycle = 65535
