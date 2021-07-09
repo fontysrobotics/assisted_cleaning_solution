@@ -23,6 +23,8 @@ class task_subscriber:
         sensor.ir_front = data[1]
         sensor.sonar1 = data[2]
         sensor.sonar2 = data[3]
+        sensor.vx = data[4]
+        sensor.vth = data[5]
 
         self.sensor_publisher.publish(sensor)
 
@@ -68,7 +70,7 @@ class task_subscriber:
 
                 self.microcontroller.flushInput()
 
-                if len(data) == 4:
+                if len(data) == 6:
                     self.publish_sensor(data)
             else:
                 pass
