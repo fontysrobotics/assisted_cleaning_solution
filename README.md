@@ -82,12 +82,56 @@ This package contains:
 * The language files
 * The images used in the page
 
-## To start the simulation, robot software and web user interface
+## Launch software.
+### To start the simulation, robot software and web user interface
 
-    roslaunch assisted_cleaning_solution nodes.launch
-    python3 -m http.server 7000;
-    rosrun assisted_cleaning_solution smach_assisted_cleaning_solution.py
+	roslaunch assisted_cleaning_solution nodes.launch
+	python3 -m http.server 7000;
+	rosrun assisted_cleaning_solution smach_assisted_cleaning_solution.py
+    
+### To start the real robot, robot software and web user interface. 
+To launch the real robot with navigation, some changes will need to be made.
 
+1. Go to nodes.launch
+2. Change in the nodes.launch file the line of robot.launch to real_robot.launch
+3. Comment out the line of office.launch
+4. Change the ip adress of the websocket
+5. Go to the package gui_assisted cleaning solution
+6. Change the url of site of websocket. As described in the read me file change url of site for ros
+
+		roslaunch assisted_cleaning_solution nodes.launch
+		python3 -m http.server -b <ip address> 7000;
+		rosrun assisted_cleaning_solution smach_assisted_cleaning_solution.py
+	
+### mapping with user interface.
+To launch the real robot with mapping, some changes will need to be made.
+	
+1. Go to nodes.launch of this package
+2. Change the line of robot.launch to real_robot.launch
+3. Comment out the line of office.launch
+4. Comment out the lines of map server
+5. Change the line of teb.launch to gmapping.launch
+6. Go to util.py in the scripts folder of this package
+7. Add to the execute of the receive_task class
+8. Done
+ 
+		elif (self.task_num == <task_number>):
+			system('rosrun map_server map_saver -f <map_name>.yaml')
+			return 'not_received'
+		
+8. Go to the package of gui_assisted_cleaning_solution
+9. Change the url of site of websocket. As described in the read me file change url of site for ros
+10. Add a button for saving the map. As described in the read me file add new task
+11. If wanted the view of the video can be swapped with the map view 
+12. Go to manual_mode.html
+13. Comment in the div with id map
+14. Comment out the video with id video element
+15. Done
+
+		roslaunch assisted_cleaning_solution nodes.launch
+		python3 -m http.server -b <ip address> 7000;
+		rosrun assisted_cleaning_solution smach_assisted_cleaning_solution.py
+	
 ## Package information
 
 ### Task message
@@ -95,16 +139,17 @@ The task message is used for giving the robot a task to perform. The user interf
 
 #### Task message layout
 
+	
 	-3 = Chairs
 	-2 = Plinths
 	-1 = Error (does nothing yet)
-    0 = Stop and Waiting for Task
-    1 = Charging Station
-    2 = Default Position in Room
-    3 = Room 1
-    4 = Room 2
-    5 = Room 3
-    6 = Room 4
+	0 = Stop and Waiting for Task
+	1 = Charging Station
+	2 = Default Position in Room
+	3 = Room 1
+	4 = Room 2
+	5 = Room 3
+	6 = Room 4
 
 #### Expand rooms.
 
